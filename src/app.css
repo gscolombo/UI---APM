@@ -5,7 +5,6 @@
     --primary-white: #ffffff;
 }
 
-body {
+body, pre {
     font-family: "Open Sans", sans-serif;
-    height: 200vh;
 }
