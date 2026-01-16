@@ -1,0 +1,11 @@
+:root {
+    --primary-red: #940509;
+    --secondary-red: #940509A1;
+    --primary-brown: #D9925B;
+    --primary-white: #ffffff;
+}
+
+body {
+    font-family: "Open Sans", sans-serif;
+    height: 200vh;
+}
