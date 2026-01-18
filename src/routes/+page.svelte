@@ -1,9 +1,8 @@
 <script lang="ts">
+  import Reviews from '$lib/components/ReviewsList.svelte';
   import type { PageProps } from './$types';
 
   let { data }: PageProps = $props();
-
-  console.log(data);
 
   // Logic to remove navigation bar height from sections height
   import { onMount } from 'svelte';
@@ -38,12 +37,19 @@
     <div class="text-content">
       <h2>SOBRE</h2>
       <div class="name_oab">
-        <h3>Ana Paula Miranda</h3>
+        <h3>Ana Paula Miranda |</h3>
         <h4>OAB/DF 80.787</h4>
       </div>
       <pre>{data.introductionText}</pre>
     </div>
     <img src={data.profile} alt="" />
+  </div>
+  <div class="testimonials">
+    <h3>DEPOIMENTOS DE CLIENTES</h3>
+    <Reviews reviews={data.reviews} />
+    <a href="https://maps.app.goo.gl/TSx8X4jrwiHbWL6F6" target="_blank"
+      >Veja todas as avaliações <i class="bi bi-geo-alt-fill"></i></a
+    >
   </div>
 </section>
 
@@ -112,9 +118,12 @@
 
       .text-content {
         width: 50%;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
 
         h2 {
-            color: var(--secondary-red);
+          color: var(--secondary-red);
         }
 
         h3,
@@ -130,8 +139,8 @@
 
         .name_oab {
           display: flex;
-          align-items: flex-end;
-          gap: 20px;
+          align-items: center;
+          gap: 5px;
           margin-bottom: 30px;
 
           h3 {
@@ -144,11 +153,43 @@
         }
 
         pre {
+          display: flex;
+          flex: 1;
           white-space: pre-wrap;
           height: fit-content;
           font-size: clamp(1rem, 2.5vh, 1.75rem);
           color: var(--primary-red);
           font-weight: 500;
+        }
+      }
+    }
+
+    .testimonials {
+      margin-top: 50px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+      h3 {
+        font-weight: 700;
+        font-size: 2rem;
+        color: var(--primary-red);
+      }
+
+      a {
+        padding: 10px 20px;
+        align-self: flex-start;
+        text-decoration: none;
+        background-color: var(--primary-red);
+        color: white;
+        font-weight: 700;
+        font-size: 1.25rem;
+        transition:
+          150ms ease-in-out transform,
+          150ms ease-in-out box-shadow;
+        &:hover {
+          transform: scale3d(1.05, 1.05, 1.05);
+          box-shadow: -5px 5px #00000055;
         }
       }
     }

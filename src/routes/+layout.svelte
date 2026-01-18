@@ -10,7 +10,7 @@
 
 <!-- <head> tag to be shown in every page of the app -->
 <svelte:head>
-  <title>{ data.siteName }</title>
+  <title>{data.siteName}</title>
   <link rel="icon" href={favicon} />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link
@@ -22,13 +22,21 @@
     href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
     rel="stylesheet"
   />
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+  />
 </svelte:head>
 
 <!-- navigation bar -->
 <nav>
   <img src={data.siteLogoURL} alt="" />
   <div class="buttons">
-    <a href="/#home">Início</a>
+    <a href="/#inicio">Início</a>
     <a href="/#sobre">Sobre</a>
     <a href="/#areas_de_atuacao">Áreas de atuação</a>
     <a href="/#areas_de_atuacao">Blog</a>
@@ -39,6 +47,8 @@
 {@render children()}
 
 <style lang="scss">
+  $enable-important-utilities: false;
+  
   nav {
     display: flex;
     justify-content: space-between;
