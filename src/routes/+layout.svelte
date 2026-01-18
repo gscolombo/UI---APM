@@ -48,7 +48,7 @@
 
 <style lang="scss">
   $enable-important-utilities: false;
-  
+
   nav {
     display: flex;
     justify-content: space-between;
@@ -72,7 +72,9 @@
           150ms ease-in transform,
           150ms ease-in opacity;
         opacity: 0.9;
-        &:hover {
+
+        &:hover,
+        &:global(.active) {
           transform: scale3d(1.1, 1.1, 1.1);
           opacity: 1;
         }

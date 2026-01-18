@@ -5,17 +5,53 @@
   let { data }: PageProps = $props();
 
   // Logic to remove navigation bar height from sections height
-  import { onMount } from 'svelte';
+  import { onMount, tick } from 'svelte';
 
   onMount(() => {
     if (document) {
       const sections = Array.from(document.getElementsByTagName('section'));
       const navbar = document.getElementsByTagName('nav').item(0);
 
-      if (sections.length && navbar)
+      if (sections.length && navbar) {
+        // Adjust automatic scroll to section
         sections.forEach((section) => {
           section.style.paddingTop = `${navbar?.clientHeight}px`;
         });
+
+        // Highlight current visible section
+        let last_y = 0;
+        let ticking = false;
+        let visibleSection: number = 0;
+        const offsets = sections.map((section) => section.offsetTop);
+        const navbarButtons = navbar.querySelectorAll('.buttons a');
+        navbarButtons[visibleSection].classList.add('active');
+        
+        window.addEventListener('scroll', () => {
+          last_y = window.scrollY;
+
+          // Throttling to reduce scroll position checks to every 200 millseconds
+          if (!ticking) {
+            setTimeout(() => {
+              ticking = false;
+
+              // Loop through each offset to find where the
+              // window was scrolled to
+              offsets.forEach((offset, i, a) => {
+                if (i < a.length)
+                  if (last_y >= offset * 0.8 && last_y < a[i + 1] * 0.8)
+                    if (i != visibleSection) {
+                      navbarButtons[visibleSection].classList.remove('active');
+                      navbarButtons[i].classList.add('active');
+                      visibleSection = i;
+                      return;
+                    }
+              });
+            }, 200);
+          }
+
+          ticking = true;
+        });
+      }
     }
   });
 </script>
