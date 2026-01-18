@@ -14,7 +14,7 @@
 
       if (sections.length && navbar)
         sections.forEach((section) => {
-          section.style.height = `calc(100vh - ${navbar?.clientHeight}px)`;
+          section.style.paddingTop = `${navbar?.clientHeight}px`;
         });
     }
   });
@@ -53,6 +53,10 @@
   </div>
 </section>
 
+<section id="areas_de_atuacao">
+  <h2>ÁREAS DE ATUAÇÃO</h2>
+</section>
+
 <style lang="scss">
   // Início
   section#inicio {
@@ -61,6 +65,7 @@
     background-position: 80% 50%;
     background-color: var(--primary-red);
     padding: 0 2rem;
+    height: 100vh;
 
     .content {
       padding: 10rem 0 10rem 5%;
@@ -115,6 +120,7 @@
       display: flex;
       justify-content: space-evenly;
       gap: 40px;
+      margin-top: 20px;
 
       .text-content {
         width: 50%;

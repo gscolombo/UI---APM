@@ -55,7 +55,7 @@
     align-items: center;
     padding: 20px;
     background-color: var(--primary-brown);
-    position: sticky;
+    position: fixed;
     top: 0;
     width: 100vw;
 
