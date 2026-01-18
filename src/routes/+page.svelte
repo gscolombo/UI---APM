@@ -33,7 +33,7 @@
 </section>
 
 <section id="sobre">
-  <div class="container">
+  <div class="container-fluid">
     <div class="text-content">
       <h2>SOBRE</h2>
       <div class="name_oab">
@@ -112,9 +112,9 @@
   // Sobre
   section#sobre {
     width: 100vw;
-    padding: 2rem;
+    padding: 4rem;
 
-    .container {
+    .container-fluid {
       width: 100%;
       height: 100%;
       display: flex;
