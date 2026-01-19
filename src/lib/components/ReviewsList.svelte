@@ -37,7 +37,7 @@
       color: var(--primary-white);
 
       .card-text {
-        font-weight: 500;
+        font-weight: 700;
       }
 
       ._card-footer {

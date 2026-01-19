@@ -1,11 +1,12 @@
 <script lang="ts">
+  import FlippingCard from '$lib/components/FlippingCard.svelte';
   import Reviews from '$lib/components/ReviewsList.svelte';
   import type { PageProps } from './$types';
 
   let { data }: PageProps = $props();
 
   // Logic to remove navigation bar height from sections height
-  import { onMount, tick } from 'svelte';
+  import { onMount } from 'svelte';
 
   onMount(() => {
     if (document) {
@@ -22,10 +23,12 @@
         let last_y = 0;
         let ticking = false;
         let visibleSection: number = 0;
-        const offsets = sections.map((section) => section.offsetTop);
+        const offsets = sections
+          .map((section) => section.offsetTop)
+          .map((o) => o * 0.75);
         const navbarButtons = navbar.querySelectorAll('.buttons a');
         navbarButtons[visibleSection].classList.add('active');
-        
+
         window.addEventListener('scroll', () => {
           last_y = window.scrollY;
 
@@ -37,14 +40,14 @@
               // Loop through each offset to find where the
               // window was scrolled to
               offsets.forEach((offset, i, a) => {
-                if (i < a.length)
-                  if (last_y >= offset * 0.8 && last_y < a[i + 1] * 0.8)
-                    if (i != visibleSection) {
-                      navbarButtons[visibleSection].classList.remove('active');
-                      navbarButtons[i].classList.add('active');
-                      visibleSection = i;
-                      return;
-                    }
+                if ((last_y >= offset && last_y < a[i + 1]) || last_y >= a.at(-1)!) {
+                  if (i != visibleSection) {
+                    navbarButtons[visibleSection].classList.remove('active');
+                    navbarButtons[i].classList.add('active');
+                    visibleSection = i;
+                    return;
+                  }
+                }
               });
             }, 200);
           }
@@ -90,7 +93,14 @@
 </section>
 
 <section id="areas_de_atuacao">
-  <h2>ÁREAS DE ATUAÇÃO</h2>
+  <div class="wrapper">
+    <h2>ÁREAS DE ATUAÇÃO</h2>
+    <div class="cards">
+      {#each data.actingAreas as area}
+        <FlippingCard {area} />
+      {/each}
+    </div>
+  </div>
 </section>
 
 <style lang="scss">
@@ -149,6 +159,7 @@
   section#sobre {
     width: 100vw;
     padding: 4rem;
+    background-color: var(--primary-white);
 
     .container-fluid {
       width: 100%;
@@ -208,6 +219,7 @@
 
     .testimonials {
       margin-top: 50px;
+      margin-bottom: -120px;
       display: flex;
       flex-direction: column;
       gap: 20px;
@@ -233,6 +245,31 @@
           transform: scale3d(1.05, 1.05, 1.05);
           box-shadow: -5px 5px #00000055;
         }
+      }
+    }
+  }
+
+  // Áreas de atuação
+  section#areas_de_atuacao {
+    padding: 4rem;
+    min-height: 100vh;
+    background-color: var(--primary-white);
+
+    .wrapper {
+      margin-top: 40px;
+
+      h2 {
+        color: var(--primary-red);
+        font-weight: 700;
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .cards {
+        display: flex;
+        justify-content: space-between;
+        gap: 30px;
+        margin: auto;
       }
     }
   }
