@@ -11,49 +11,67 @@
   onMount(() => {
     if (document) {
       const sections = Array.from(document.getElementsByTagName('section'));
-      const navbar = document.getElementsByTagName('nav').item(0);
+      const navbar = document.querySelector('nav');
+      const mobileMenu = document.querySelector('.mobile-menu');
 
       if (sections.length && navbar) {
-        // Adjust automatic scroll to section
-        sections.forEach((section) => {
-          section.style.paddingTop = `${navbar?.clientHeight}px`;
-        });
-
         // Highlight current visible section
         let last_y = 0;
         let ticking = false;
-        let visibleSection: number = 0;
+        let visibleSection = 0;
         const offsets = sections
           .map((section) => section.offsetTop)
-          .map((o) => o * 0.75);
+          .map((o) => o * 0.9);
         const navbarButtons = navbar.querySelectorAll('.buttons a');
+
+        let mobileMenuButtons: NodeListOf<HTMLAnchorElement>;
+        if (mobileMenu) {
+          mobileMenuButtons = mobileMenu.querySelectorAll('a');
+          mobileMenuButtons[visibleSection].classList.add('active');
+        }
+
         navbarButtons[visibleSection].classList.add('active');
 
-        window.addEventListener('scroll', () => {
-          last_y = window.scrollY;
+        window.addEventListener(
+          'scroll',
+          () => {
+            last_y = window.scrollY;
 
-          // Throttling to reduce scroll position checks to every 200 millseconds
-          if (!ticking) {
-            setTimeout(() => {
-              ticking = false;
+            // Throttling to reduce scroll position checks to every 200 millseconds
+            if (!ticking) {
+              setTimeout(() => {
+                ticking = false;
 
-              // Loop through each offset to find where the
-              // window was scrolled to
-              offsets.forEach((offset, i, a) => {
-                if ((last_y >= offset && last_y < a[i + 1]) || last_y >= a.at(-1)!) {
-                  if (i != visibleSection) {
-                    navbarButtons[visibleSection].classList.remove('active');
-                    navbarButtons[i].classList.add('active');
-                    visibleSection = i;
-                    return;
+                // Loop through each offset to find where the
+                // window was scrolled to
+                offsets.forEach((offset, i, a) => {
+                  if (
+                    (last_y >= offset && last_y < a[i + 1]) ||
+                    last_y >= a.at(-1)!
+                  ) {
+                    if (i != visibleSection) {
+                      navbarButtons[visibleSection].classList.remove('active');
+                      navbarButtons[i].classList.add('active');
+
+                      if (mobileMenu) {
+                        mobileMenuButtons[visibleSection].classList.remove(
+                          'active',
+                        );
+                        mobileMenuButtons[i].classList.add('active');
+                      }
+
+                      visibleSection = i;
+                      return;
+                    }
                   }
-                }
-              });
-            }, 200);
-          }
+                });
+              }, 200);
+            }
 
-          ticking = true;
-        });
+            ticking = true;
+          },
+          { passive: window.innerWidth <= 768 },
+        );
       }
     }
   });
@@ -67,7 +85,11 @@
       Atuação ética, atendimento personalizado e qualificado, com assessoramento
       em delegacia e em todas as fases do processo.
     </p>
-    <button>Precisa de ajuda?<br />Envie uma mensagem</button>
+    <button>
+      <a href="#contato">
+        Precisa de ajuda?<br />Envie uma mensagem
+      </a>
+    </button>
   </div>
 </section>
 
@@ -104,6 +126,10 @@
 </section>
 
 <style lang="scss">
+  :global(section) {
+    padding-top: 112px !important;
+  }
+
   // Início
   section#inicio {
     background-image: url('/images/home_bg.png');
@@ -123,7 +149,7 @@
 
       h1,
       p,
-      button {
+      a {
         color: var(--primary-white);
         font-weight: 700;
       }
@@ -150,6 +176,10 @@
         &:hover {
           transform: scale3d(1.05, 1.05, 1.05);
           box-shadow: -10px 10px #00000055;
+        }
+        
+        a {
+          text-decoration: none;
         }
       }
     }
@@ -252,8 +282,8 @@
   // Áreas de atuação
   section#areas_de_atuacao {
     padding: 4rem;
-    min-height: 100vh;
     background-color: var(--primary-white);
+    margin-bottom: -50px;
 
     .wrapper {
       margin-top: 40px;
@@ -273,4 +303,6 @@
       }
     }
   }
+
+  @import './+page.mobile.scss';
 </style>

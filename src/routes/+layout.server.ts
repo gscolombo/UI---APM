@@ -1,4 +1,4 @@
-import type { LayoutServerLoad } from "./$types";
+import type { Actions, LayoutServerLoad } from "./$types";
 
 import { STRAPI_SERVER_URL } from "$env/static/private";
 import { client } from "$lib/strapiClient";
@@ -12,5 +12,9 @@ export const load: LayoutServerLoad = async () => {
     };
 };
 
-
-
+export const actions = {
+    default: async ({ request }) => {
+        const data = await request.formData();
+        
+    }
+} satisfies Actions;

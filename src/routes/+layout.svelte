@@ -6,10 +6,22 @@
   import '../app.css';
 
   let { data, children }: LayoutProps = $props();
+  let showMobileMenu = $state(false);
+
+  $effect(() => {
+    if (showMobileMenu)
+      document.body.style.overflowY = 'hidden';
+    else
+      document.body.style.overflowY = '';
+  })
 </script>
 
 <!-- <head> tag to be shown in every page of the app -->
 <svelte:head>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  />
   <title>{data.siteName}</title>
   <link rel="icon" href={favicon} />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -39,12 +51,67 @@
     <a href="/#inicio">Início</a>
     <a href="/#sobre">Sobre</a>
     <a href="/#areas_de_atuacao">Áreas de atuação</a>
-    <a href="/#areas_de_atuacao">Blog</a>
     <a href="/#contato">Contato</a>
   </div>
+  <button
+    class="mobile-menu-btn"
+    onclick={() => (showMobileMenu = true)}
+    aria-label="mobile-menu"
+  >
+    <i class="bi bi-list"></i>
+  </button>
 </nav>
 
+<div class="mobile-menu" style:display={showMobileMenu ? 'flex' : 'none'}>
+  <button
+    class="close-btn"
+    onclick={() => (showMobileMenu = false)}
+    aria-label="mobile-menu"
+  >
+    <i class="bi bi-x-lg"></i>
+  </button>
+  <a href="/#inicio" onclick={() => (showMobileMenu = false)}>Início</a>
+  <a href="/#sobre" onclick={() => (showMobileMenu = false)}>Sobre</a>
+  <a href="/#areas_de_atuacao" onclick={() => (showMobileMenu = false)}
+    >Áreas de atuação</a
+  >
+  <a href="/#contato" onclick={() => (showMobileMenu = false)}>Contato</a>
+</div>
+
 {@render children()}
+
+<!-- Contact form with footer -->
+<section id="contato">
+  <div class="container-fluid">
+    <div class="contact-info">
+      <h1>ADVOGADA CRIMINAL</h1>
+      <div class="banner">
+        ENTRE EM CONTATO
+        <span>ATENDIMENTO 24H</span>
+      </div>
+      <p>some text</p>
+      <ul>
+        <li><i class="bi bi-whatsapp"></i>phone_number</li>
+        <li><i class="bi bi-envelope-at-fill"></i>email</li>
+      </ul>
+    </div>
+    <div class="contact-form">
+      <form action="POST">
+        <input type="text" name="name" placeholder="NOME" required />
+        <input
+          type="tel"
+          name="phoneNumber"
+          pattern={'([0-9]{2,3}) [1-9][0-9]{3,4}-[0-9]{4}'}
+          placeholder="TELEFONE"
+        />
+        <input type="email" name="email" placeholder="E-MAIL" required />
+        <textarea name="message" id="message" placeholder="MENSAGEM" required
+        ></textarea>
+        <button>ENVIAR</button>
+      </form>
+    </div>
+  </div>
+</section>
 
 <style lang="scss">
   $enable-important-utilities: false;
@@ -79,7 +146,130 @@
           transform: scale3d(1.1, 1.1, 1.1);
           opacity: 1;
         }
+
+        &:global(.active) {
+          padding-bottom: 5px;
+          border-bottom: 2.5px solid var(--primary-red);
+        }
+      }
+    }
+
+    .mobile-menu-btn {
+      display: none;
+    }
+  }
+
+  section#contato {
+    height: 100vh;
+    background-color: var(--primary-white);
+
+    .container-fluid {
+      padding: 3rem;
+      background-color: var(--primary-red);
+      display: grid;
+      height: 100%;
+      width: 100%;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .contact-info {
+      grid-column: 1/2;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+
+      h1 {
+        font-size: 4rem;
+        color: var(--primary-white);
+      }
+
+      .banner {
+        background-color: var(--primary-brown);
+        display: flex;
+        max-width: 560px;
+        flex-direction: column;
+        text-align: center;
+        padding: 2rem 4rem;
+        font-size: 2.5rem;
+        gap: 20px;
+        color: var(--primary-white);
+        font-weight: 700;
+
+        span {
+          color: var(--primary-red);
+        }
+      }
+
+      p {
+        color: var(--primary-white);
+        font-weight: 500;
+      }
+
+      ul {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+
+        li {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          font-size: 1.5rem;
+          color: var(--primary-white);
+        }
+      }
+    }
+
+    .contact-form {
+      display: flex;
+      align-items: center;
+
+      form {
+        display: grid;
+        grid-template-rows: 4rem 4rem 4rem 1fr;
+        gap: 20px;
+        width: 100%;
+        height: 100%;
+
+        input,
+        textarea {
+          padding: 1rem;
+          font-size: 2rem;
+          font-weight: 700;
+          outline: none;
+          border: none;
+          background-color: var(--primary-white);
+          color: var(--secondary-red);
+        }
+
+        textarea {
+          font-size: 1.25rem;
+          resize: none;
+        }
+
+        button {
+          padding: 10px 2rem;
+          width: fit-content;
+          font-size: 1.5rem;
+          justify-self: flex-end;
+          border: none;
+          outline: none;
+          background-color: var(--primary-brown);
+          font-weight: 700;
+          color: var(--primary-white);
+          transition:
+            150ms ease-in-out transform,
+            150ms ease-in-out box-shadow;
+          cursor: pointer;
+          &:hover {
+            transform: scale3d(1.05, 1.05, 1.05);
+            box-shadow: 10px 10px #00000055;
+          }
+        }
       }
     }
   }
+
+  @import './+layout.mobile.scss';
 </style>

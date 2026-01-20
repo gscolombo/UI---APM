@@ -36,6 +36,7 @@
     box-shadow: 0px 4px 10px 4px #00000018;
     display: grid;
     grid-template-rows: 100%;
+    border: 2px solid var(--primary-red);
 
     .front,
     .back {
@@ -89,7 +90,7 @@
         }
 
         .after {
-          background: linear-gradient(rgba(0,0,0,0) 40%, rgba(0,0,0,0.9));
+          background: linear-gradient(rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.9));
           display: flex;
           justify-content: center;
           h1 {
@@ -130,5 +131,127 @@
 
   .card.flipped {
     transform: rotateY(180deg);
+  }
+
+  /* Small Mobile Devices */
+  @media (max-width: 480px) {
+    .card {
+      .front {
+        .content {
+          .after {
+            h1 {
+              font-size: 1rem;
+            }
+          }
+        }
+
+        button {
+          font-size: 0.9rem;
+          padding: 6px 12px;
+        }
+      }
+
+      .back {
+        p {
+          font-size: 0.9rem;
+          padding: 0.7rem;
+        }
+
+        button {
+          font-size: 0.85rem;
+        }
+      }
+    }
+  }
+
+  /* Medium Size Mobile Devices */
+  @media (max-width: 768px) {
+    .card {
+      min-width: 100%;
+      margin: 0 auto;
+      user-select: none;
+      box-shadow: 0px 3px 8px 3px #00000022;
+      scroll-snap-align: center;
+
+      .front {
+        grid-template-rows: 4fr 1fr;
+        gap: 8px;
+
+        .content {
+          .after {
+            h1 {
+              font-size: 1.1rem;
+              padding-bottom: 8px;
+              text-align: center;
+            }
+          }
+        }
+
+        button {
+          font-size: 1rem;
+          padding: 8px 16px;
+          width: 90%;
+          max-width: 200px;
+
+          &:hover {
+            transform: none; /* Remove hover effect on mobile */
+          }
+        }
+      }
+
+      .back {
+        grid-template-rows: 4fr 1fr;
+
+        p {
+          font-size: 0.95rem;
+          padding: 0.8rem;
+          line-height: 1.4;
+          overflow-y: auto;
+          user-select: text;
+        }
+
+        button {
+          font-size: 0.9rem;
+          padding: 6px 12px;
+          margin-right: 8px;
+
+          &:hover {
+            transform: none; /* Remove hover effect on mobile */
+          }
+        }
+      }
+    }
+  }
+
+  /* Tablet Styles */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .card {
+      width: 100%;
+      height: 300px;
+
+      .front {
+        .content {
+          .after {
+            h1 {
+              font-size: 1.2rem;
+            }
+          }
+        }
+
+        button {
+          font-size: 1.1rem;
+        }
+      }
+
+      .back {
+        p {
+          font-size: 1rem;
+        }
+
+        button {
+          font-size: 1rem;
+        }
+      }
+    }
   }
 </style>

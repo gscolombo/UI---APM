@@ -1,0 +1,331 @@
+/* Mobile Responsive Styles */
+
+/* Adjust section padding for fixed navbar on mobile */
+@media (max-width: 768px) {
+    :global(section) {
+        padding-top: 80px !important;
+    }
+
+    button,
+    a {
+        user-select: none;
+    }
+
+    /* Improve touch targets */
+    a,
+    button,
+    input,
+    textarea {
+        min-height: 44px;
+    }
+
+    /* Adjust Reviews component specifically */
+    .reviews-slider {
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+
+        .review-card {
+            min-width: 85vw;
+            scroll-snap-align: start;
+        }
+    }
+
+    /* Início Section */
+    section#inicio {
+        padding: 0 1rem;
+
+        .content {
+            width: 100%;
+            padding: 6rem 0 4rem 0;
+            align-items: center;
+            justify-content: space-evenly;
+            text-align: center;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 0 auto;
+            width: 90%;
+
+            h1 {
+                font-size: 4rem;
+                line-height: 1.2;
+                margin-bottom: 2rem;
+            }
+
+            p {
+                font-size: 1.3rem;
+                margin-bottom: 2rem;
+            }
+
+            button {
+                font-size: 1.2rem;
+                padding: 12px 30px;
+                width: 100%;
+                max-width: 300px;
+                text-align: center;
+
+                /* Remove hover effect on mobile */
+                &:hover {
+                    transform: none;
+                    box-shadow: none;
+                }
+            }
+        }
+    }
+
+    /* Sobre Section */
+    section#sobre {
+        padding: 2rem 1rem;
+
+        .container-fluid {
+            flex-direction: column;
+            gap: 3rem;
+            margin-top: 0;
+
+            .text-content {
+                width: 100%;
+
+                h2 {
+                    font-size: 2.5rem;
+                    text-align: center;
+                }
+
+                .name_oab {
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 10px;
+                    margin-bottom: 20px;
+
+                    h3 {
+                        font-size: 1.8rem;
+                        text-align: center;
+                    }
+
+                    h4 {
+                        font-size: 1.3rem;
+                    }
+                }
+
+                pre {
+                    font-size: 1.2rem;
+                    line-height: 1.6;
+                    padding: 0 1rem;
+                }
+            }
+
+            img {
+                width: 100%;
+                max-width: 300px;
+                height: auto;
+                display: block;
+                margin: 0 auto;
+                border-radius: 10px;
+            }
+        }
+
+        .testimonials {
+            margin-top: 3rem;
+            margin-bottom: 2rem;
+            padding: 0 1rem;
+
+            h3 {
+                font-size: 1.8rem;
+                text-align: center;
+                margin-bottom: 1.5rem;
+            }
+
+            a {
+                align-self: center;
+                font-size: 1.1rem;
+                padding: 12px 25px;
+                text-align: center;
+
+                &:hover {
+                    transform: none;
+                    /* Remove hover effect on mobile */
+                    box-shadow: none;
+                }
+            }
+
+            /* Adjust Reviews component for mobile */
+            .reviews-container {
+                padding: 1rem;
+            }
+        }
+    }
+
+    /* Áreas de Atuação Section */
+    section#areas_de_atuacao {
+        padding: 2rem 1rem;
+        margin-bottom: 0;
+        flex-direction: row;
+
+        .wrapper {
+            margin-top: 0;
+
+            h2 {
+                font-size: 2.2rem;
+                text-align: center;
+                margin-bottom: 2rem;
+            }
+
+            .cards {
+                align-items: center;
+                gap: 2rem;
+                overflow-x: scroll;
+                scroll-snap-type: x mandatory;
+                padding: 0 0 1rem 0;
+                scrollbar-color: var(--primary-red) var(--primary-brown);
+            }
+        }
+    }
+}
+
+/* Small Mobile Devices (Portrait) */
+@media (max-width: 480px) {
+    section#inicio {
+        .content {
+            padding: 0 0 3rem 0;
+
+            h1 {
+                font-size: 3.5rem;
+            }
+
+            button {
+                font-size: 1.1rem;
+                padding: 10px 20px;
+            }
+        }
+    }
+
+    section#sobre {
+        .container-fluid {
+            .text-content {
+                h2 {
+                    font-size: 2rem;
+                }
+
+                .name_oab {
+                    h3 {
+                        font-size: 1.5rem;
+                    }
+
+                    h4 {
+                        font-size: 1.1rem;
+                    }
+                }
+
+                pre {
+                    font-size: 1rem;
+                }
+            }
+        }
+    }
+
+    section#areas_de_atuacao {
+        .wrapper {
+            h2 {
+                font-size: 1.8rem;
+            }
+        }
+    }
+}
+
+/* Tablet Styles (Portrait) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    section#inicio {
+        .content {
+            width: 60%;
+            padding: 8rem 0 8rem 5%;
+
+            h1 {
+                font-size: 4rem;
+            }
+
+            p,
+            button {
+                font-size: 1.6rem;
+            }
+        }
+    }
+
+    section#sobre {
+        padding: 3rem;
+
+        .container-fluid {
+            flex-direction: column;
+            align-items: center;
+
+            .text-content {
+                width: 100%;
+                max-width: 800px;
+
+                h2 {
+                    text-align: center;
+                }
+
+                .name_oab {
+                    justify-content: center;
+                }
+            }
+
+            img {
+                max-width: 400px;
+            }
+        }
+
+        .testimonials {
+            a {
+                align-self: center;
+            }
+        }
+    }
+
+    section#areas_de_atuacao {
+        .wrapper {
+            .cards {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+
+                .flipping-card {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+
+/* Tablet Landscape */
+@media (min-width: 1025px) and (max-width: 1280px) {
+    section#inicio {
+        .content {
+            width: 60%;
+
+            h1 {
+                font-size: 4.5rem;
+            }
+
+            p,
+            button {
+                font-size: 1.8rem;
+            }
+        }
+    }
+
+    section#sobre {
+        .container-fluid {
+            gap: 3rem;
+
+            .text-content {
+                pre {
+                    font-size: 1.4rem;
+                }
+            }
+
+            img {
+                max-width: 400px;
+            }
+        }
+    }
+}
