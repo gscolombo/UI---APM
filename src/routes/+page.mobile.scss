@@ -11,26 +11,6 @@
         user-select: none;
     }
 
-    /* Improve touch targets */
-    a,
-    button,
-    input,
-    textarea {
-        min-height: 44px;
-    }
-
-    /* Adjust Reviews component specifically */
-    .reviews-slider {
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-
-        .review-card {
-            min-width: 85vw;
-            scroll-snap-align: start;
-        }
-    }
-
     /* Início Section */
     section#inicio {
         padding: 0 1rem;
@@ -145,11 +125,6 @@
                     /* Remove hover effect on mobile */
                     box-shadow: none;
                 }
-            }
-
-            /* Adjust Reviews component for mobile */
-            .reviews-container {
-                padding: 1rem;
             }
         }
     }
@@ -287,10 +262,6 @@
                 display: grid;
                 grid-template-columns: repeat(2, 1fr);
                 gap: 2rem;
-
-                .flipping-card {
-                    width: 100%;
-                }
             }
         }
     }
