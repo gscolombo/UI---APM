@@ -103,10 +103,10 @@
         ENTRE EM CONTATO
         <span>ATENDIMENTO 24H</span>
       </div>
-      <p>some text</p>
+      <p>{ data.contactText }</p>
       <ul>
-        <li><i class="bi bi-whatsapp"></i>phone_number</li>
-        <li><i class="bi bi-envelope-at-fill"></i>email</li>
+        <li><i class="bi bi-whatsapp"></i>{ data.phoneNumber }</li>
+        <li><i class="bi bi-envelope-at-fill"></i>{ data.email }</li>
       </ul>
     </div>
     <div class="contact-form">
@@ -204,8 +204,8 @@
     <div class="contacts">
       <h1>Contatos</h1>
       <ul>
-        <li><i class="bi bi-whatsapp"></i>phone_number</li>
-        <li><i class="bi bi-envelope-at-fill"></i>email</li>
+        <li><i class="bi bi-whatsapp"></i>{ data.phoneNumber }</li>
+        <li><i class="bi bi-envelope-at-fill"></i>{ data.email }</li>
       </ul>
     </div>
     <div class="accessibility">
@@ -286,6 +286,7 @@
       height: 100%;
       width: 100%;
       grid-template-columns: 1fr 1fr;
+      gap: 100px;
     }
 
     .contact-info {
@@ -320,19 +321,22 @@
       p {
         color: var(--primary-white);
         font-weight: 500;
+        font-size: 1.5rem;
       }
 
       ul {
         display: flex;
         flex-direction: column;
-        gap: 2rem;
+        gap: 1rem;
+        padding: 0;
 
         li {
           display: flex;
           align-items: center;
           gap: 10px;
-          font-size: 1.5rem;
+          font-size: 1.75rem;
           color: var(--primary-white);
+          font-weight: 700;
         }
       }
     }

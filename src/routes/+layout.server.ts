@@ -13,19 +13,20 @@ export const load: LayoutServerLoad = async () => {
         'siteLogo',
         'about', 'about.profile',
         'googleReviews', 'googleReviews.reviews',
-        'actingAreas', 'actingAreas.image'
+        'actingAreas', 'actingAreas.image',
+        'contact'
     ]
 
-    const { siteName, siteLogo, about, googleReviews, actingAreas } = (await client.single('global').find({ populate: populate, fields: simpleFields })).data;
+    const data = (await client.single('global').find({ populate: populate, fields: simpleFields })).data;
 
     // Parse publish datetime and get only initials of every review author
-    const reviews: Review[] = (googleReviews.reviews as Review[]).map((review) => {
+    const reviews: Review[] = (data.googleReviews.reviews as Review[]).map((review) => {
         review.publishTime = new Date(review.publishTime).toLocaleDateString('pt-BR');
         review.author = review.author.split(" ").map((s): string => s.at(0)!).join(".");
         return review;
     })
 
-    const _actingAreas: ActingArea[] = (actingAreas as any[]).map((item) => (
+    const _actingAreas: ActingArea[] = (data.actingAreas as any[]).map((item) => (
         {
             title: item.title,
             description: item.description,
@@ -34,12 +35,15 @@ export const load: LayoutServerLoad = async () => {
     ))
 
     return {
-        siteName: siteName,
-        siteLogoURL: STRAPI_SERVER_URL + siteLogo.url,
-        introductionText: about.introductionText,
-        profile: STRAPI_SERVER_URL + about.profile.url,
-        averageRating: googleReviews.averageRating,
+        siteName: data.siteName,
+        siteLogoURL: STRAPI_SERVER_URL + data.siteLogo.url,
+        introductionText: data.about.introductionText,
+        profile: STRAPI_SERVER_URL + data.about.profile.url,
+        averageRating: data.googleReviews.averageRating,
         reviews: reviews,
-        actingAreas: _actingAreas
+        actingAreas: _actingAreas,
+        phoneNumber: data.contact.phoneNumber,
+        email: data.contact.email,
+        contactText: data.contact.text
     };
 };
