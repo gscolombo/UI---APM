@@ -24,6 +24,14 @@
     bootstrap = await import('bootstrap');
     toastContainer = document.querySelector('.toast-container');
   });
+
+  // Utilitary functions
+  function sanitizePhoneNumber(p: string): string {
+    let result: string = '';
+    for (const c of p) if (/\d/.test(c)) result += c;
+
+    return result;
+  }
 </script>
 
 <!-- <head> tag to be shown in every page of the app -->
@@ -103,10 +111,16 @@
         ENTRE EM CONTATO
         <span>ATENDIMENTO 24H</span>
       </div>
-      <p>{ data.contactText }</p>
+      <p>{data.contactText}</p>
       <ul>
-        <li><i class="bi bi-whatsapp"></i>{ data.phoneNumber }</li>
-        <li><i class="bi bi-envelope-at-fill"></i>{ data.email }</li>
+        <li>
+          <a
+            href={`https://wa.me/${sanitizePhoneNumber(data.phoneNumber)}`}
+            target="_blank"
+            aria-label="Link para Whatsapp"><i class="bi bi-whatsapp"></i></a
+          >{data.phoneNumber}
+        </li>
+        <li><i class="bi bi-envelope-at-fill"></i>{data.email}</li>
       </ul>
     </div>
     <div class="contact-form">
@@ -182,7 +196,9 @@
     </div>
 
     <div id="failure" class="toast fade bg-danger text-bg-primary">
-      <div class="toast-header bg-danger text-bg-primary fw-bold">Não foi possível enviar a mensagem.</div>
+      <div class="toast-header bg-danger text-bg-primary fw-bold">
+        Não foi possível enviar a mensagem.
+      </div>
       <div class="toast-body">
         Por favor, tente novamente mais tarde ou envie uma mensagem diretamente
         pelo <i>e-mail</i>/Whatsapp.
@@ -204,8 +220,14 @@
     <div class="contacts">
       <h1>Contatos</h1>
       <ul>
-        <li><i class="bi bi-whatsapp"></i>{ data.phoneNumber }</li>
-        <li><i class="bi bi-envelope-at-fill"></i>{ data.email }</li>
+        <li>
+          <a
+            href={`https://wa.me/${sanitizePhoneNumber(data.phoneNumber)}`}
+            target="_blank"
+            aria-label="Link para Whatsapp"><i class="bi bi-whatsapp"></i></a
+          >{data.phoneNumber}
+        </li>
+        <li><i class="bi bi-envelope-at-fill"></i>{data.email}</li>
       </ul>
     </div>
     <div class="accessibility">
@@ -337,6 +359,15 @@
           font-size: 1.75rem;
           color: var(--primary-white);
           font-weight: 700;
+
+          a {
+            text-decoration: none;
+            color: var(--primary-white);
+            transition: transform 0.3s;
+            &:hover {
+              transform: scale(1.2);
+            }
+          }
         }
       }
     }
@@ -452,6 +483,15 @@
               color: var(--primary-red);
             }
           }
+        }
+      }
+
+      .contacts ul li a {
+        text-decoration: none;
+        color: var(--primary-white);
+        transition: transform 0.3s;
+        &:hover {
+          transform: scale(1.2);
         }
       }
 
