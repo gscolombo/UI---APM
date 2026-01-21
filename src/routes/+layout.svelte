@@ -5,13 +5,24 @@
 
   import '../reset.css';
   import '../app.css';
+  import { enhance } from '$app/forms';
+  import { onMount } from 'svelte';
 
   let { data, children }: LayoutProps = $props();
   let showMobileMenu = $state(false);
+  let sendingMessage = $state(false);
 
   $effect(() => {
     if (showMobileMenu) document.body.style.overflowY = 'hidden';
     else document.body.style.overflowY = '';
+  });
+
+  let toastContainer: HTMLDivElement | null;
+  let bootstrap: any;
+
+  onMount(async () => {
+    bootstrap = await import('bootstrap');
+    toastContainer = document.querySelector('.toast-container');
   });
 </script>
 
@@ -99,19 +110,83 @@
       </ul>
     </div>
     <div class="contact-form">
-      <form action="POST">
-        <input type="text" name="name" placeholder="NOME" required />
+      <form
+        method="POST"
+        action="?/contact"
+        use:enhance={() => {
+          sendingMessage = true;
+
+          return async ({ result, update }) => {
+            await update();
+
+            if (toastContainer) {
+              const toast = toastContainer.querySelector(`#${result.type}`);
+              bootstrap.Toast.getOrCreateInstance(toast!).show();
+            }
+
+            sendingMessage = false;
+          };
+        }}
+      >
+        <input
+          type="text"
+          name="name"
+          placeholder="Seu nome"
+          required
+          disabled={sendingMessage}
+        />
         <input
           type="tel"
           name="phoneNumber"
-          pattern={'([0-9]{2,3}) [1-9][0-9]{3,4}-[0-9]{4}'}
-          placeholder="TELEFONE"
+          pattern={'\\([0-9]{2,3}\\)\\s[1-9][0-9]{3,4}-[0-9]{4}'}
+          placeholder="(XX) XXXXX-XXXX"
+          disabled={sendingMessage}
         />
-        <input type="email" name="email" placeholder="E-MAIL" required />
-        <textarea name="message" id="message" placeholder="MENSAGEM" required
+        <input
+          type="email"
+          name="email"
+          placeholder="exemplo@exemplo.com.br"
+          required
+          disabled={sendingMessage}
+        />
+        <textarea
+          name="message"
+          id="message"
+          placeholder="Escreva sua mensagem"
+          required
+          disabled={sendingMessage}
         ></textarea>
-        <button>ENVIAR</button>
+        <button
+          disabled={sendingMessage}
+          style:pointer-events={sendingMessage ? 'none' : 'auto'}
+        >
+          {#if sendingMessage}
+            <div class="d-flex align-items-center gap-2">
+              ENVIANDO
+              <div class="spinner-border"></div>
+            </div>
+          {:else}
+            ENVIAR
+          {/if}
+        </button>
       </form>
+    </div>
+  </div>
+
+  <div class="toast-container p-3 position-fixed bottom-0 end-0">
+    <div id="success" class="toast fade bg-success text-bg-primary">
+      <div class="toast-body fw-bold">
+        Mensagem enviada com sucesso!<br />
+        <span class="fw-normal">Retornarei seu contato em breve!</span>
+      </div>
+    </div>
+
+    <div id="failure" class="toast fade bg-danger text-bg-primary">
+      <div class="toast-header bg-danger text-bg-primary fw-bold">Não foi possível enviar a mensagem.</div>
+      <div class="toast-body">
+        Por favor, tente novamente mais tarde ou envie uma mensagem diretamente
+        pelo <i>e-mail</i>/Whatsapp.
+      </div>
     </div>
   </div>
 </section>

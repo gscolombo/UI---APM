@@ -11,10 +11,3 @@ export const load: LayoutServerLoad = async () => {
         siteLogoURL: STRAPI_SERVER_URL + siteLogo.url
     };
 };
-
-export const actions = {
-    default: async ({ request }) => {
-        const data = await request.formData();
-        
-    }
-} satisfies Actions;

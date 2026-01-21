@@ -1,9 +1,10 @@
-import type { PageServerLoad } from './$types';
+import type { Actions, PageServerLoad } from './$types';
 
 import { STRAPI_SERVER_URL } from "$env/static/private";
 import { client } from '$lib/strapiClient';
 import type Review from '$lib/interfaces/Review';
 import type ActingArea from '$lib/interfaces/ActingArea';
+import { fail } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async () => {
     const toPopulate = [
@@ -11,7 +12,7 @@ export const load: PageServerLoad = async () => {
         'googleReviews', 'googleReviews.reviews',
         'actingAreas', 'actingAreas.image'
     ]
-    const { about, googleReviews, actingAreas } = (await client.single('global').find({populate: toPopulate})).data;
+    const { about, googleReviews, actingAreas } = (await client.single('global').find({ populate: toPopulate })).data;
 
     // Parse publish datetime and get only initials of every review author
     const reviews: Review[] = (googleReviews.reviews as Review[]).map((review) => {
@@ -36,3 +37,25 @@ export const load: PageServerLoad = async () => {
         "actingAreas": _actingAreas
     }
 }
+
+export const actions = {
+    contact: async ({ request }) => {
+        const data = JSON.stringify(Object.fromEntries((await request.formData()).entries()));
+        
+        const result = await client.fetch("/contact/submit", {
+            body: data,
+            method: "POST",
+            headers: { "Content-Type": "application/json" }
+        }).catch((error) => {
+            return error.response;
+        })
+
+        const response = await result.json();
+
+        if (result.ok) {
+            return { data: response }
+        }
+
+        return fail(500, response.error);
+    }
+} satisfies Actions;
