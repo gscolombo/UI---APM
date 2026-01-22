@@ -137,7 +137,6 @@
     background-position: 80% 50%;
     background-color: var(--primary-red);
     padding: 0 2rem;
-    height: 100vh;
 
     .content {
       padding: 10rem 0 10rem 5%;
@@ -146,6 +145,7 @@
       justify-content: space-between;
       height: 100%;
       width: 50%;
+      min-height: 100vh;
 
       h1,
       p,
@@ -177,7 +177,7 @@
           transform: scale3d(1.05, 1.05, 1.05);
           box-shadow: -10px 10px #00000055;
         }
-        
+
         a {
           text-decoration: none;
         }

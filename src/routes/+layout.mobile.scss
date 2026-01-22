@@ -82,7 +82,7 @@
             grid-template-columns: 1fr;
             padding: 2rem 1rem;
             margin-top: -10px;
-            gap: 3rem;
+            gap: 1.5rem;
         }
 
         .contact-info {
@@ -142,8 +142,45 @@
                     font-size: 1.2rem;
                     padding: 0.8rem;
                     justify-self: center;
+                    pointer-events: none;
                 }
             }
+        }
+    }
+
+    footer {
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            align-items: center;
+            text-align: center;
+
+            .disclaimer p {
+                font-size: 0.875rem;
+                text-align: left;
+            }
+
+            .contacts,
+            .accessibility {
+                h1 {
+                    font-size: 1.25rem;
+                }
+
+                ul {
+                    align-items: center;
+
+                    li {
+                        font-size: 1rem;
+                    }
+                }
+            }
+        }
+
+        .copyright {
+            font-size: 0.875rem;
         }
     }
 }
@@ -188,23 +225,81 @@
 /* Tablet Styles */
 @media (min-width: 769px) and (max-width: 1024px) {
     section#contato {
+
+        .container-fluid {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
         .contact-info {
+            gap: 1.5rem;
+
             h1 {
                 font-size: 3rem;
+            }
+
+            p {
+                font-size: 1.25rem;
             }
 
             .banner {
                 font-size: 2rem;
                 padding: 1.5rem 2rem;
             }
+
+            ul li {
+                font-size: 1.5rem;
+            }
         }
 
         .contact-form {
+            flex: 1;
+            flex-direction: column;
+
             form {
+                flex: 1;
 
                 input,
                 textarea {
                     font-size: 1.5rem;
+                }
+
+                button {
+                    pointer-events: none;
+                }
+            }
+        }
+    }
+
+    footer {
+        .content {
+            gap: 2rem;
+            padding: 1rem;
+
+            .disclaimer {
+                img {
+                    max-width: 200px;
+                }
+
+                p {
+                    font-size: 0.75rem;
+                }
+            }
+
+
+            .contacts,
+            .accessibility {
+                h1 {
+                    font-size: 1rem;
+                }
+
+                ul {
+                    gap: 1rem;
+                    
+                    li {
+                        font-size: 0.875rem;
+                    }
                 }
             }
         }

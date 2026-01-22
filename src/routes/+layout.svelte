@@ -298,14 +298,13 @@
   }
 
   section#contato {
-    height: 100vh;
     background-color: var(--primary-white);
 
     .container-fluid {
       padding: 3rem;
       background-color: var(--primary-red);
       display: grid;
-      height: 100%;
+      min-height: 100vh;
       width: 100%;
       grid-template-columns: 1fr 1fr;
       gap: 100px;
