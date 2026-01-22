@@ -5,6 +5,14 @@ import { client, fetchWithRetry } from "$lib/strapiClient";
 import type Review from "$lib/interfaces/Review";
 import type ActingArea from "$lib/interfaces/ActingArea";
 
+function sanitizeURL(url: string): string {
+    if (url.startsWith("http")) {
+        return url;
+    }
+
+    return STRAPI_SERVER_URL + url;
+}
+
 export const load: LayoutServerLoad = async () => {
     const simpleFields = ['siteName']
     const populate = [
@@ -30,15 +38,15 @@ export const load: LayoutServerLoad = async () => {
         {
             title: item.title,
             description: item.description,
-            imgSrc: STRAPI_SERVER_URL + item.image.formats.small.url
+            imgSrc: sanitizeURL(item.image.formats.small.url)
         }
     ))
 
     return {
         siteName: data.siteName,
-        siteLogoURL: STRAPI_SERVER_URL + data.siteLogo.url,
+        siteLogoURL: sanitizeURL(data.siteLogo.url),
         introductionText: data.about.introductionText,
-        profile: STRAPI_SERVER_URL + data.about.profile.url,
+        profile: sanitizeURL(data.about.profile.url),
         averageRating: data.googleReviews.averageRating,
         reviews: reviews,
         actingAreas: _actingAreas,
