@@ -1,14 +1,12 @@
 import type { Actions, LayoutServerLoad } from "./$types";
 
 import { STRAPI_SERVER_URL } from "$env/static/private";
-import { client } from "$lib/strapiClient";
+import { client, fetchWithRetry } from "$lib/strapiClient";
 import type Review from "$lib/interfaces/Review";
 import type ActingArea from "$lib/interfaces/ActingArea";
 
 export const load: LayoutServerLoad = async () => {
-
     const simpleFields = ['siteName']
-
     const populate = [
         'siteLogo',
         'about', 'about.profile',
@@ -17,7 +15,9 @@ export const load: LayoutServerLoad = async () => {
         'contact'
     ]
 
-    const data = (await client.single('global').find({ populate: populate, fields: simpleFields })).data;
+    const _fetch = () => client.single('global').find({ populate: populate, fields: simpleFields });
+
+    const data = (await fetchWithRetry(_fetch)).data;
 
     // Parse publish datetime and get only initials of every review author
     const reviews: Review[] = (data.googleReviews.reviews as Review[]).map((review) => {
