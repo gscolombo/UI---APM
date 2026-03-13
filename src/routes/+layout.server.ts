@@ -38,7 +38,7 @@ export const load: LayoutServerLoad = async () => {
         {
             title: item.title,
             description: item.description,
-            imgSrc: sanitizeURL(item.image.formats.small.url)
+            imgSrc: sanitizeURL(item.image.formats?.small.url || item.image.url)
         }
     ))
 
