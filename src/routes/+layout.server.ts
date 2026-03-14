@@ -6,7 +6,7 @@ import type Review from "$lib/interfaces/Review";
 import type ActingArea from "$lib/interfaces/ActingArea";
 
 function sanitizeURL(url: string): string {
-    if (url.startsWith("http")) {
+    if (url && url.startsWith("http")) {
         return url;
     }
 
@@ -23,35 +23,44 @@ export const load: LayoutServerLoad = async () => {
         'contact'
     ]
 
-    const _fetch = () => client.single('global').find({ populate: populate, fields: simpleFields });
+    const _fetch = () => client.single('global')
+        .find({ populate: populate, fields: simpleFields })
+        .catch((reason) => console.error(reason))
 
-    const data = (await fetchWithRetry(_fetch)).data;
+    const data = (await fetchWithRetry(_fetch))?.data;
 
-    // Parse publish datetime and get only initials of every review author
-    const reviews: Review[] = (data.googleReviews.reviews as Review[]).map((review) => {
-        review.publishTime = new Date(review.publishTime).toLocaleDateString('pt-BR');
-        review.author = review.author.split(" ").map((s): string => s.at(0)!).join(".");
-        return review;
-    })
+    if (data) {
+        // Parse publish datetime and get only initials of every review author
+        let reviews: Review[] = []
+        if (data.googleReviews)
+            reviews = (data.googleReviews.reviews as Review[]).map((review) => {
+                review.publishTime = new Date(review.publishTime).toLocaleDateString('pt-BR');
+                review.author = review.author.split(" ").map((s): string => s.at(0)!).join(".");
+                return review;
+            })
 
-    const _actingAreas: ActingArea[] = (data.actingAreas as any[]).map((item) => (
-        {
-            title: item.title,
-            description: item.description,
-            imgSrc: sanitizeURL(item.image.formats?.small.url || item.image.url)
-        }
-    ))
+        
+        let _actingAreas: ActingArea[] = []
+        if (data.actingAreas)
+            _actingAreas = (data.actingAreas as any[]).map((item) => (
+                {
+                    title: item.title,
+                    description: item.description,
+                    imgSrc: sanitizeURL(item.image?.formats?.small?.url || item.image?.url)
+                }
+            ))
 
-    return {
-        siteName: data.siteName,
-        siteLogoURL: sanitizeURL(data.siteLogo.url),
-        introductionText: data.about.introductionText,
-        profile: sanitizeURL(data.about.profile.url),
-        averageRating: data.googleReviews.averageRating,
-        reviews: reviews,
-        actingAreas: _actingAreas,
-        phoneNumber: data.contact.phoneNumber,
-        email: data.contact.email,
-        contactText: data.contact.text
-    };
+        return {
+            siteName: data.siteName,
+            siteLogoURL: sanitizeURL(data.siteLogo?.url),
+            introductionText: data.about?.introductionText,
+            profile: sanitizeURL(data.about?.profile?.url),
+            averageRating: data.googleReviews?.averageRating,
+            reviews: reviews,
+            actingAreas: _actingAreas,
+            phoneNumber: data.contact?.phoneNumber,
+            email: data.contact?.email,
+            contactText: data.contact?.text
+        };
+    }
 };

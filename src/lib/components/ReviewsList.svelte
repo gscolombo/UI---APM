@@ -2,7 +2,7 @@
   import type Review from '$lib/interfaces/Review';
   import StarRating from './StarRating.svelte';
 
-  const { reviews }: { reviews: Review[] } = $props();
+  const { reviews }: { reviews: Review[] | undefined } = $props();
 </script>
 
 <div class="reviews">

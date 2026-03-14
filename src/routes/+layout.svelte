@@ -28,7 +28,9 @@
   // Utilitary functions
   function sanitizePhoneNumber(p: string): string {
     let result: string = '';
-    for (const c of p) if (/\d/.test(c)) result += c;
+
+    if (p)
+      for (const c of p) if (/\d/.test(c)) result += c;
 
     return result;
   }
