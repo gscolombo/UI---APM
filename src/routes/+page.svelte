@@ -1,79 +1,21 @@
 <script lang="ts">
-  import FlippingCard from '$lib/components/FlippingCard.svelte';
-  import Reviews from '$lib/components/ReviewsList.svelte';
-  import type { PageProps } from './$types';
+  import { onMount } from "svelte";
+  import type { PageProps } from "./$types";
+
+  import FlippingCard from "$lib/components/FlippingCard.svelte";
+  import Reviews from "$lib/components/ReviewsList.svelte";
+
+  import sectionHighlight from "$lib/scripts/sectionHighlight";
+
+  import "swiper/swiper-bundle.css";
+    import initSwiper from "$lib/scripts/initSwiper";
 
   let { data }: PageProps = $props();
 
-  // Logic to remove navigation bar height from sections height
-  import { onMount } from 'svelte';
 
   onMount(() => {
-    if (document) {
-      const sections = Array.from(document.getElementsByTagName('section'));
-      const navbar = document.querySelector('nav');
-      const mobileMenu = document.querySelector('.mobile-menu');
-
-      if (sections.length && navbar) {
-        // Highlight current visible section
-        let last_y = 0;
-        let ticking = false;
-        let visibleSection = 0;
-        const offsets = sections
-          .map((section) => section.offsetTop)
-          .map((o) => o * 0.9);
-        const navbarButtons = navbar.querySelectorAll('.buttons a');
-
-        let mobileMenuButtons: NodeListOf<HTMLAnchorElement>;
-        if (mobileMenu) {
-          mobileMenuButtons = mobileMenu.querySelectorAll('a');
-          mobileMenuButtons[visibleSection].classList.add('active');
-        }
-
-        navbarButtons[visibleSection].classList.add('active');
-
-        window.addEventListener(
-          'scroll',
-          () => {
-            last_y = window.scrollY;
-
-            // Throttling to reduce scroll position checks to every 200 millseconds
-            if (!ticking) {
-              setTimeout(() => {
-                ticking = false;
-
-                // Loop through each offset to find where the
-                // window was scrolled to
-                offsets.forEach((offset, i, a) => {
-                  if (
-                    (last_y >= offset && last_y < a[i + 1]) ||
-                    last_y >= a.at(-1)!
-                  ) {
-                    if (i != visibleSection) {
-                      navbarButtons[visibleSection].classList.remove('active');
-                      navbarButtons[i].classList.add('active');
-
-                      if (mobileMenu) {
-                        mobileMenuButtons[visibleSection].classList.remove(
-                          'active',
-                        );
-                        mobileMenuButtons[i].classList.add('active');
-                      }
-
-                      visibleSection = i;
-                      return;
-                    }
-                  }
-                });
-              }, 200);
-            }
-
-            ticking = true;
-          },
-          { passive: window.innerWidth <= 768 },
-        );
-      }
-    }
+    sectionHighlight();
+    initSwiper();
   });
 </script>
 
@@ -117,10 +59,19 @@
 <section id="areas_de_atuacao">
   <div class="wrapper">
     <h2>ÁREAS DE ATUAÇÃO</h2>
-    <div class="cards">
-      {#each data.actingAreas as area}
-        <FlippingCard {area} />
-      {/each}
+    <div class="swiper">
+      <div class="cards swiper-wrapper">
+        {#each data.actingAreas as area}
+          <div class="swiper-slide">
+            <FlippingCard {area} />
+          </div>
+        {/each}
+      </div>
+      <div class="navigation-pagination">
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+      </div>
     </div>
   </div>
 </section>
@@ -132,7 +83,7 @@
 
   // Início
   section#inicio {
-    background-image: url('/images/home_bg.png');
+    background-image: url("/images/home_bg.png");
     background-size: cover;
     background-position: 80% 50%;
     background-color: var(--primary-red);
@@ -295,14 +246,33 @@
         margin-bottom: 2rem;
       }
 
-      .cards {
-        display: flex;
-        justify-content: space-between;
-        gap: 30px;
-        margin: auto;
+      .swiper {
+        --swiper-pagination-bullet-width: 0.75rem;
+        --swiper-pagination-bullet-height: 0.75rem;
+        --swiper-theme-color: var(--primary-red);
+        --swiper-navigation-size: 1.5rem;
+
+        .navigation-pagination {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding-top: 1.5rem;
+
+          .swiper-button-prev,
+          .swiper-button-next {
+            position: relative;
+          }
+
+          .swiper-pagination {
+            position: relative;
+            width: fit-content;
+            left: 0;
+            transform: none;
+          }
+        }
       }
     }
   }
 
-  @import './+page.mobile.scss';
+  @import "./+page.mobile.scss";
 </style>

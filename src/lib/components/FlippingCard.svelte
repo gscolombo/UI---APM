@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type ActingArea from '$lib/interfaces/ActingArea';
+  import type ActingArea from "$lib/interfaces/ActingArea";
 
   let flipped = $state(false);
 
@@ -8,7 +8,7 @@
   const { area }: { area: ActingArea } = $props();
 </script>
 
-<div class={['card', { flipped }]}>
+<div class={["card", { flipped }]}>
   <div class="front">
     <div class="content">
       <img src={area.imgSrc} alt="" />
@@ -20,14 +20,13 @@
     <button onclick={flip}>Saiba mais</button>
   </div>
   <div class="back">
-    <p>{area.description}</p>
+    <pre>{area.description}</pre>
     <button onclick={flip}> Voltar </button>
   </div>
 </div>
 
 <style lang="scss">
   .card {
-    width: 20vw;
     height: 320px;
     transform: rotateY(360deg);
     transition: transform 0.4s;
@@ -62,7 +61,7 @@
 
     .front {
       display: grid;
-      grid-template-rows: 3fr 1fr;
+      grid-template-rows: 4fr 1fr;
       gap: 10px;
       align-items: center;
       justify-items: center;
@@ -76,21 +75,19 @@
         overflow: hidden;
         justify-items: center;
 
-        img,
         .after {
           grid-area: 1/1;
           min-width: 100%;
         }
 
         img {
+          grid-area: 1/1;
           max-height: 100%;
-          object-fit: cover;
-          object-position: top;
-          display: block;
+          width: 50%;
+          align-self: center;
         }
 
         .after {
-          background: linear-gradient(rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.9));
           display: flex;
           justify-content: center;
           h1 {
@@ -98,7 +95,7 @@
             font-weight: 700;
             color: var(--primary-white);
             align-self: flex-end;
-            padding-bottom: 10px;
+            text-align: center;
           }
         }
       }
@@ -118,13 +115,16 @@
         margin-right: 10px;
       }
 
-      p {
+      pre {
         overflow-y: scroll;
         padding: 1rem;
         border-bottom: 1px solid var(--primary-red);
         color: var(--primary-white);
         background-color: #0000002a;
         font-size: 1.125rem;
+        font-weight: 500;
+        line-height: 1.5rem;
+        white-space: pre-wrap;
       }
     }
   }
@@ -152,7 +152,7 @@
       }
 
       .back {
-        p {
+        pre {
           font-size: 0.9rem;
           padding: 0.7rem;
         }
@@ -202,7 +202,7 @@
       .back {
         grid-template-rows: 4fr 1fr;
 
-        p {
+        pre {
           font-size: 0.95rem;
           padding: 0.8rem;
           line-height: 1.4;
@@ -244,7 +244,7 @@
       }
 
       .back {
-        p {
+        pre {
           font-size: 1rem;
         }
 

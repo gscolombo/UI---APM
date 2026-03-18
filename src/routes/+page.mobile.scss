@@ -143,15 +143,6 @@
                 text-align: center;
                 margin-bottom: 2rem;
             }
-
-            .cards {
-                align-items: center;
-                gap: 2rem;
-                overflow-x: scroll;
-                scroll-snap-type: x mandatory;
-                padding: 0 0 1rem 0;
-                scrollbar-color: var(--primary-red) var(--primary-brown);
-            }
         }
     }
 }
@@ -254,17 +245,7 @@
                 align-self: center;
             }
         }
-    }
-
-    section#areas_de_atuacao {
-        .wrapper {
-            .cards {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 2rem;
-            }
-        }
-    }
+    }   
 }
 
 /* Tablet Landscape */

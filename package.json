@@ -23,7 +23,8 @@
 		"vite": "^7.2.6"
 	},
 	"dependencies": {
-		"@strapi/client": "^1.6.0",
-		"bootstrap": "^5.3.8"
+		"@strapi/client": "^1.6.1",
+		"bootstrap": "^5.3.8",
+		"swiper": "^12.1.2"
 	}
 }
