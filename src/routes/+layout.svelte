@@ -7,6 +7,7 @@
   import '../app.css';
   import { enhance } from '$app/forms';
   import { onMount } from 'svelte';
+  import formatPhoneNumber from '$lib/scripts/fomatPhoneNumber';
 
   let { data, children }: LayoutProps = $props();
   let showMobileMenu = $state(false);
@@ -19,6 +20,7 @@
 
   let toastContainer: HTMLDivElement | null;
   let bootstrap: any;
+  let phoneNumber: string | null = $state(null);
 
   onMount(async () => {
     bootstrap = await import('bootstrap');
@@ -149,7 +151,7 @@
           name="name"
           placeholder="Seu nome"
           required
-          disabled={sendingMessage}
+          disabled={sendingMessage} 
         />
         <input
           type="tel"
@@ -157,6 +159,7 @@
           pattern={'\\([0-9]{2,3}\\)\\s[1-9][0-9]{3,4}-[0-9]{4}'}
           placeholder="(XX) XXXXX-XXXX"
           disabled={sendingMessage}
+          bind:value={() => phoneNumber, (number) => phoneNumber = formatPhoneNumber(number)}
         />
         <input
           type="email"
